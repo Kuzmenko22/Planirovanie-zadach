@@ -1,4 +1,4 @@
-import { postRouter } from "~/server/api/routers/post";
+//import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { userRouter } from "./routers/user";
 import { scheduleRouter } from "./routers/schedule";
@@ -20,7 +20,7 @@ export const appRouter = createTRPCRouter({
   teacher: teacherRouter,
   group: groupRouter,
   schedule: scheduleRouter,
-  post: postRouter,
+  //post: postRouter,
   subgroup: subgroupRouter,
   classroom: classroomRouter,
   user: userRouter,

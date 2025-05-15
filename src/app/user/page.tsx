@@ -17,7 +17,11 @@ export default function UsersPage() {
   const [isAddUserFormVisible, setAddUserFormVisible] = useState(false);
   if (isLoading || !data) return <div className="p-4">Загрузка...</div>;
 
-  if (currentUser!.role !== "ADMIN") {
+  if (isUserLoading) {
+    return <div className="p-4">Загрузка...</div>;
+  }
+
+  if (!currentUser || currentUser.role !== "ADMIN") {
     return (
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-4">Нет доступа</h1>
