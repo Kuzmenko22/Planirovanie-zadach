@@ -6,6 +6,7 @@ import { api } from "~/trpc/react";
 import { TeacherScheduleTable } from "../_components/teacherSchedule/teacherScheduleTable";
 import { AddLessonForm } from "../_components/teacherSchedule/AddLessonForm";
 import { FindFreeClassrooms } from "../_components/teacherSchedule/FindFreeClassrooms";
+import { AddClassroomForm } from "../_components/teacherSchedule/AddClassroom";
 
 
 export default function TeacherSchedulePage() {
@@ -65,6 +66,14 @@ export default function TeacherSchedulePage() {
       <h2 className="text-xl font-semibold mb-2">Добавить занятие</h2>
       <AddLessonForm teacherId={selectedId ?? ""} />
       </>
+      )}
+
+      {currentUser?.role === "ADMIN" && (
+        <>
+          <hr className="my-6" />
+          <h2 className="text-xl font-semibold mb-2">Добавить аудиторию</h2>
+          <AddClassroomForm />
+        </>
       )}
     </div>
   );

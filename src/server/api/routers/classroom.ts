@@ -1,6 +1,7 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { db } from "~/server/db";
 import { z } from "zod";
+import { isAdmin} from "~/app/api/auth/check";
 
 export const classroomRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
@@ -36,6 +37,29 @@ export const classroomRouter = createTRPCRouter({
           ? { id: { notIn: busyIds } }
           : {},
         orderBy: { name: "asc" },
+      });
+    }),
+
+    create: publicProcedure
+    .input(z.object({
+      name: z.string().min(1, "Название не может быть пустым"),
+    }))
+    .mutation(async ({ input }) => {
+      const isUserAdmin = await isAdmin();
+      if (!isUserAdmin) {
+        throw new Error("Доступ запрещён. Добавлять аудитории может только администратор.");
+      }
+
+      const existing = await db.classroom.findUnique({
+        where: { name: input.name },
+      });
+
+      if (existing) {
+        throw new Error("Аудитория с таким названием уже существует.");
+      }
+
+      return db.classroom.create({
+        data: { name: input.name },
       });
     }),
 });
