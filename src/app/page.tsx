@@ -11,7 +11,7 @@ export default async function Home() {
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  redirect("/schedule");
+  redirect("/tasks");
 }
 
 

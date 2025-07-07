@@ -18,7 +18,6 @@ declare module "next-auth" {
       id: string;
       // ...other properties
       role: $Enums.Role;
-      teacherId?: string | null;
     } & DefaultSession["user"];
   }
 
@@ -42,7 +41,7 @@ export const authConfig = {
     })
   ],
   adapter: PrismaAdapter(db),
-  /*callbacks: {
+  callbacks: {
     session: ({ session, user }) => ({
       ...session,
       user: {
@@ -50,30 +49,6 @@ export const authConfig = {
         id: user.id,
       },
     }),
-  },*/
-  callbacks: {
-    session: async ({ session, user }) => {
-      const dbUser = await db.user.findUnique({
-        where: { id: user.id },
-        include: { teacherProfile: true },
-      });
-
-      if (!dbUser) {
-        return session;
-      }
-  
-      const teacherId = dbUser.role === $Enums.Role.TEACHER ? dbUser.teacherProfile?.id : null;
-  
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: dbUser!.id,
-          role: dbUser!.role,
-          teacherId,
-        },
-      };
-    },
   },
 
 } satisfies NextAuthConfig;

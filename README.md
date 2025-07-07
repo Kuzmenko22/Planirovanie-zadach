@@ -28,5 +28,5 @@
    ``pnpm db:start``
 9) Запуск разработки
     
-   ``pnpm run dev``
+   ``pnpm dev``
 

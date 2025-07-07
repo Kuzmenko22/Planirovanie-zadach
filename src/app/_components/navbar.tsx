@@ -9,13 +9,10 @@ export async function Navbar({ session }: { session: Session }) {
         Выход
       </Link>
       <Link href="/" className="btn">
-        Расписание студента
-      </Link>
-      <Link href="/teacherSchedule" className="btn">
-        Расписание преподавателя
+        Мои задачи
       </Link>
       <Link href="/user" className="btn">
-        Пользователи
+        Профиль
       </Link>
     </div>
   );

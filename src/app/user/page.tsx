@@ -1,9 +1,8 @@
-"use client"
+/*"use client"
 import { api } from "~/trpc/react";
 import { useSearchParams } from "next/navigation";
 import UserTable from "../_components/user/userTable";
 import Pagination from "../ui/pagination";
-import { UserAddForm } from "../_components/user/UserAddForm";
 import { useState } from "react";
 
 export default function UsersPage() {
@@ -43,11 +42,11 @@ export default function UsersPage() {
       >
         {isAddUserFormVisible ? "Закрыть форму" : "Добавить пользователя"}
       </button>
-      {isAddUserFormVisible && <UserAddForm />}
+      {isAddUserFormVisible}
       <UserTable users={data.users} />
       <div className="mt-4">
         <Pagination totalPages={Math.ceil(data.total / limit)} />
       </div>
     </div>
   );
-}
+}*/

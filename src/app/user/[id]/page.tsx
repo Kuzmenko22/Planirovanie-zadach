@@ -1,4 +1,4 @@
-import { UserEditForm } from "~/app/_components/user/UserEditForm";
+/*import { UserEditForm } from "~/app/_components/user/UserEditForm";
 
 export default function UserPage({ params }: { params: { id: string } }) {
   return (
@@ -7,4 +7,4 @@ export default function UserPage({ params }: { params: { id: string } }) {
       <UserEditForm userId={params.id} />
     </div>
   );
-}
+}*/
