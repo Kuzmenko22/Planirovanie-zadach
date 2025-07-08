@@ -11,7 +11,7 @@
 - NextAuth.js – аутентификация
 - Tailwind CSS – стилизация
 
-## Установка
+## Установкаawsdaw
 1) Клонировать репозиторий
 
    ``git clone https://github.com/Kuzmenko22/PP_Kursovaya.git``
