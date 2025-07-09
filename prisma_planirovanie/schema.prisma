@@ -1,64 +1,70 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
+//-------------------- НЕ ТРОГАЕМ -------------------------
+// Необходимо для следующей авторизации (ДОБАВИТЬ ИНДЕКСЫ)
 model Account {
-  id                        String   @id @default(cuid())
-  userId                    String
-  type                      String
-  provider                  String
-  providerAccountId         String
-  refresh_token             String?  // @db.Text
-  access_token              String?  // @db.Text
-  expires_at                Int?
-  token_type                String?
-  scope                     String?
-  id_token                  String?  // @db.Text
-  session_state             String?
-  user                      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  refresh_token_expires_in  Int?
+    id                       String  @id @default(cuid())
+    userId                   String
+    type                     String
+    provider                 String
+    providerAccountId        String
+    refresh_token            String? // @db.Text
+    access_token             String? // @db.Text
+    expires_at               Int?
+    token_type               String?
+    scope                    String?
+    id_token                 String? // @db.Text
+    session_state            String?
+    user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    refresh_token_expires_in Int?
 
-  @@unique([provider, providerAccountId])
+    @@unique([provider, providerAccountId])
 }
 
+// Сессия
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id           String   @id @default(cuid())
+    sessionToken String   @unique
+    userId       String
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id            String    @id @default(cuid())
-  firstname     String?
-  surname       String?
-  lastname      String?
-  email         String?   @unique
-  emailVerified DateTime?
-  role          Role      @default(USER)
-  accounts      Account[]
-  sessions      Session[]
-  tasks         Task[]   
+    id            String    @id @default(cuid())
+    firstname     String?
+    surname       String?
+    lastname      String?
+    email         String?   @unique
+    emailVerified DateTime?
+    role          Role      @default(USER)
+    accounts      Account[]
+    sessions      Session[]
+    tasks         Task[]
 }
 
 model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+    identifier String
+    token      String   @unique
+    expires    DateTime
 
-  @@unique([identifier, token])
+    @@unique([identifier, token])
 }
 
+//Роли меняю надо будет потом в коде подправить логику!!! 
 enum Role {
   ADMIN
   USER
 }
+//---------------------------------------------
+
 
 enum Color {
   NO
@@ -72,6 +78,8 @@ enum StatusTask {
   NOTCOMPLETED
 }
 
+//подправить когда закончу с task в api/routers
+//подправить индексы
 model Task {
   id               String      @id @default(cuid())
   date             DateTime    @db.Date
@@ -80,9 +88,9 @@ model Task {
   color            Color       @default(NO)
   status           StatusTask  @default(NOTCOMPLETED)
   priority         Int
-  title            String
-  description      String?     @db.Text
+  title             String
+  description      String?     @db.Text     
 
-  @@index([userId])
-  @@index([date])
+  @@index([userId, date])
+  @@index([id])
 }
