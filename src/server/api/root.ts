@@ -1,15 +1,5 @@
-//import { postRouter } from "~/server/api/routers/post";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
-//import { userRouter } from "./routers/user";
-//import { scheduleRouter } from "./routers/schedule";
-//import { groupRouter } from "./routers/group";
-//import { teacherRouter } from "./routers/teacher";
-//import { subgroupRouter } from "./routers/subgroup";
-//import { classroomRouter } from "./routers/classroom";
-//import { lessonRouter } from "./routers/lesson";
-//import { subjectRouter } from "./routers/subject";
-//import { gradeRouter } from "./routers/grade";
-//import { squadRouter } from "./routers/squad";
+import { taskRouter } from "./routers/task";
 
 /**
  * This is the primary router for your server.
@@ -17,15 +7,8 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  //teacher: teacherRouter,
-  //group: groupRouter,
-  //schedule: scheduleRouter,
-  //post: postRouter,
-  //subgroup: subgroupRouter,
-  //classroom: classroomRouter,
+  task: taskRouter,
   //user: userRouter,
-  //lesson: lessonRouter,
-  //subject: subjectRouter,
 });
 
 // export type definition of API

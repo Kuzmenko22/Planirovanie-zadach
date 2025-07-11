@@ -1,4 +1,5 @@
-import { startOfWeek, addDays } from 'date-fns'
+import { startOfMonth, endOfMonth, eachDayOfInterval, format, addDays, startOfWeek } from 'date-fns'
+import { ru } from 'date-fns/locale'
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
   if (totalPages <= 7) {
@@ -39,4 +40,14 @@ export const getWeekDates = (
     const label = `${daysOfWeek[i]}, ${date.getDate()}.${date.getMonth() + 1}`
     return { date, label }
   })
+}
+
+export function getMonthDates(baseDate: Date) {
+  const start = startOfWeek(startOfMonth(baseDate), { weekStartsOn: 1 })
+  const end = addDays(endOfMonth(baseDate), 6) // захватываем последнюю неделю
+
+  return eachDayOfInterval({ start, end }).map((date) => ({
+    date,
+    label: format(date, 'EEE', { locale: ru }), // Пн, Вт и т.д.
+  }))
 }
