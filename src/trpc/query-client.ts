@@ -8,8 +8,8 @@ export const createQueryClient = () =>
   new QueryClient({
     defaultOptions: {
       queries: {
-        // With SSR, we usually want to set some default staleTime
-        // above 0 to avoid refetching immediately on the client
+        // При использовании SSR мы обычно хотим установить некое значение staleTime по умолчанию.
+        // выше 0, чтобы избежать немедленной повторной загрузки на клиенте
         staleTime: 30 * 1000,
       },
       dehydrate: {
