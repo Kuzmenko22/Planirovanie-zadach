@@ -1,5 +1,11 @@
-import { startOfMonth, endOfMonth, eachDayOfInterval, format, addDays, startOfWeek } from 'date-fns'
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+import { startOfMonth, endOfMonth, eachDayOfInterval, format, addDays, startOfWeek, endOfWeek, isSameMonth } from 'date-fns'
 import { ru } from 'date-fns/locale'
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
   if (totalPages <= 7) {
@@ -42,12 +48,23 @@ export const getWeekDates = (
   })
 }
 
-export function getMonthDates(baseDate: Date) {
+/*export function getMonthDates(baseDate: Date) {
   const start = startOfWeek(startOfMonth(baseDate), { weekStartsOn: 1 })
   const end = addDays(endOfMonth(baseDate), 6) // захватываем последнюю неделю
 
   return eachDayOfInterval({ start, end }).map((date) => ({
     date,
     label: format(date, 'EEE', { locale: ru }), // Пн, Вт и т.д.
+  }))
+}*/
+
+export function getMonthDates(baseDate: Date) {
+  const start = startOfWeek(startOfMonth(baseDate), { weekStartsOn: 1 })
+  const end = endOfWeek(endOfMonth(baseDate), { weekStartsOn: 1 }) // полная неделя
+
+  return eachDayOfInterval({ start, end }).map((date) => ({
+    date,
+    label: format(date, 'EEE', { locale: ru }), 
+    isCurrentMonth: isSameMonth(date, baseDate), 
   }))
 }
