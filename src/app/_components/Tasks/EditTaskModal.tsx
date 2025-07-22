@@ -1,8 +1,24 @@
 'use client'
 
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog'
-import type { Task } from '~/types/task'
+import { useState, useEffect } from 'react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '../ui/dialog'
+
+export type Task = {
+  id: string
+  date: string
+  userId: string
+  title: string
+  description?: string
+  taskType: 'CONTRACT' | 'RENEWAL' | 'CANCEL'
+  color: 'NO' | 'GREEN' | 'YELLOW' | 'RED'
+  price: number
+  durationMonths: number
+}
 
 interface EditTaskModalProps {
   task: Task | null
@@ -12,24 +28,45 @@ interface EditTaskModalProps {
 
 const EditTaskModal = ({ task, onClose, onSave }: EditTaskModalProps) => {
   const [form, setForm] = useState({
-    title: task?.title ?? '',
-    description: task?.description ?? '',
-    date: task?.date ?? '',
-    color: task?.color ?? 'NO',
-    type: task?.type ?? 'ПРОДЛЕНИЕ',
-    amount: task?.amount ?? 0,
+    title: '',
+    description: '',
+    date: '',
+    taskType: 'RENEWAL' as Task['taskType'],
+    price: 0,
+    durationMonths: 1,
   })
+
+  useEffect(() => {
+    if (task) {
+      setForm({
+        title: task.title,
+        description: task.description ?? '',
+        date: task.date.slice(0, 10),
+        taskType: task.taskType,
+        price: task.price,
+        durationMonths: task.durationMonths,
+      })
+    }
+  }, [task])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!task) return
-    onSave({ ...task, ...form, amount: Number(form.amount) })
+
+    onSave({
+      ...task,
+      ...form,
+      price: Number(form.price),
+      durationMonths: Number(form.durationMonths),
+      date: form.date,
+    })
     onClose()
   }
 
@@ -42,7 +79,7 @@ const EditTaskModal = ({ task, onClose, onSave }: EditTaskModalProps) => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Наименование</label>
+            <label className="block text-sm font-medium mb-1">Наименование компании</label>
             <input
               type="text"
               name="title"
@@ -64,36 +101,21 @@ const EditTaskModal = ({ task, onClose, onSave }: EditTaskModalProps) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Цвет</label>
-            <select
-              name="color"
-              value={form.color}
-              onChange={handleChange}
-              className="w-full border p-2 rounded"
-            >
-              <option value="NO">Нет</option>
-              <option value="GREEN">Зелёный</option>
-              <option value="YELLOW">Жёлтый</option>
-              <option value="RED">Красный</option>
-            </select>
-          </div>
-
-          <div>
             <label className="block text-sm font-medium mb-1">Тип задачи</label>
             <select
-              name="type"
-              value={form.type}
+              name="taskType"
+              value={form.taskType}
               onChange={handleChange}
               className="w-full border p-2 rounded"
             >
-              <option value="ПРОДЛЕНИЕ">Продление</option>
-              <option value="РАСТОРЖЕНИЕ">Расторжение</option>
-              <option value="ЗАКЛЮЧЕНИЕ">Заключение</option>
+              <option value="CONTRACT">Заключение</option>
+              <option value="RENEWAL">Продление</option>
+              <option value="CANCEL">Расторжение</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Описание</label>
+            <label className="block text-sm font-medium mb-1">Комментарий</label>
             <textarea
               name="description"
               value={form.description}
@@ -104,13 +126,25 @@ const EditTaskModal = ({ task, onClose, onSave }: EditTaskModalProps) => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-1">Сумма (₽)</label>
+            <label className="block text-sm font-medium mb-1">Стоимость услуг (₽)</label>
             <input
               type="number"
-              name="amount"
-              value={form.amount}
+              name="price"
+              value={form.price}
               onChange={handleChange}
               className="w-full border p-2 rounded"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1">Срок услуг (в месяцах)</label>
+            <input
+              type="number"
+              name="durationMonths"
+              value={form.durationMonths}
+              onChange={handleChange}
+              className="w-full border p-2 rounded"
+              min={1}
             />
           </div>
 

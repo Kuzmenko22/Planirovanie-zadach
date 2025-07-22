@@ -67,21 +67,25 @@ enum Color {
   RED
 }
 
-enum StatusTask {
-  COMPLETED
-  NOTCOMPLETED
+enum TaskType {
+  CONTRACT 
+  RENEWAL 
+  CANCEL
 }
 
 model Task {
-  id               String      @id @default(cuid())
-  date             DateTime    @db.Date
-  userId           String
-  user             User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  color            Color       @default(NO)
-  status           StatusTask  @default(NOTCOMPLETED)
-  priority         Int
-  title            String
-  description      String?     @db.Text
+  id              String    @id @default(cuid())
+  date            DateTime  @db.Date
+  userId          String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  title           String                // наименование компании
+  description     String?   @db.Text    // комментарий
+  taskType        TaskType              // тип задачи
+  color           Color     @default(NO) // цвет, связанный с типом задачи
+
+  price           Int                   // стоимость услуг в рублях
+  durationMonths  Int                   // срок услуг в месяцах
 
   @@index([userId])
   @@index([date])
