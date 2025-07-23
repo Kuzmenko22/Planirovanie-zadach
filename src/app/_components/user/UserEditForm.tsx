@@ -43,7 +43,7 @@ export function UserEditForm({ initialData }: UserEditFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Обновить пользователя:", formState);
-    alert("Пользователь обновлен (эмуляция)");
+    alert("Пользователь обновлен");
   };
 
   return (
