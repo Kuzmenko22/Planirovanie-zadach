@@ -9,7 +9,7 @@ import {
 import { format } from 'date-fns'
 import { ru } from 'date-fns/locale'
 import type { Task } from '~/types/task'
-import { Pencil } from 'lucide-react'
+import { Pencil, Plus } from 'lucide-react'
 import { getColorClass } from './TaskCard'
 import React from 'react'
 import { Button } from '../ui/button'
@@ -20,6 +20,7 @@ interface TasksDialogProps {
   date: Date | null
   tasks: Task[]
   onEditTask: (task: Task) => void
+  onAddTask?: () => void
 }
 
 const TasksDialog = ({
@@ -28,6 +29,7 @@ const TasksDialog = ({
   date,
   tasks,
   onEditTask,
+  onAddTask,
 }: TasksDialogProps) => {
   const totalPrice = tasks.reduce((sum, task) => sum + task.price, 0)
   const totalCancelPrice = tasks
@@ -40,11 +42,24 @@ const TasksDialog = ({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl">
-        <DialogHeader>
+      <DialogHeader>
           <DialogTitle>
             Задачи на {date ? format(date, 'd MMMM (EEEE)', { locale: ru }) : ''}
           </DialogTitle>
-        </DialogHeader>
+      </DialogHeader>
+
+      {onAddTask && (
+          <div className="absolute top-4 right-12">
+            <Button
+              onClick={onAddTask}
+              className="rounded-full w-10 h-10 bg-green-600 text-white hover:bg-primary/90 transition-colors duration-200"
+              size="icon"
+              title="Добавить задачу"
+            >
+              <Plus size={20} />
+            </Button>
+          </div>
+        )}
 
         {tasks.length > 0 ? (
           <div className="mt-4">

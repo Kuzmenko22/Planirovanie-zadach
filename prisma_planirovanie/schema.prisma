@@ -79,13 +79,13 @@ model Task {
   userId          String
   user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  title           String                // наименование компании
-  description     String?   @db.Text    // комментарий
-  taskType        TaskType              // тип задачи
-  color           Color     @default(NO) // цвет, связанный с типом задачи
+  title           String              
+  description     String?   @db.Text    
+  taskType        TaskType             
+  color           Color     @default(NO)
 
-  price           Int                   // стоимость услуг в рублях
-  durationMonths  Int                   // срок услуг в месяцах
+  price           Int              
+  durationMonths  Int                  
 
   @@index([userId])
   @@index([date])
