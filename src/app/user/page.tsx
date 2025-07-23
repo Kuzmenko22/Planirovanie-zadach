@@ -6,9 +6,9 @@ import { Role } from "@prisma/client";
 
 import UserTable from "~/app/_components/user/userTable";
 import Pagination from "../ui/pagination";
+import { UserAddForm } from "~/app/_components/user/UserAddForm";
 
-// Тип пользователя
-type MockUser = {
+type User = {
   id: string;
   firstname: string | null;
   surname: string | null;
@@ -18,30 +18,34 @@ type MockUser = {
   emailVerified: Date | null;
 };
 
-// Мок-данные для отображения
-const mockUsers: MockUser[] = Array.from({ length: 53 }).map((_, i) => ({
-  id: String(i + 1),
-  firstname: `Имя${i + 1}`,
-  surname: `Фамилия${i + 1}`,
-  lastname: `Отчество${i + 1}`,
-  email: `user${i + 1}@example.com`,
-  role: i % 2 === 0 ? Role.ADMIN : Role.USER,
-  emailVerified: i % 3 === 0 ? new Date() : null,
-}));
-
 const USERS_PER_PAGE = 10;
+
+type Props = {
+  users: User[];   
+  totalUsersCount: number;
+};
 
 export default function UsersPage() {
   const [isAddUserFormVisible, setAddUserFormVisible] = useState(false);
   const searchParams = useSearchParams();
 
-  const currentPage = Number(searchParams.get("page")) || 1;
-  const totalPages = Math.ceil(mockUsers.length / USERS_PER_PAGE);
+  const users: User[] = [
+    {
+      id: "1",
+      firstname: "Иван",
+      surname: "Иванов",
+      lastname: "Иванович",
+      email: "ivanovich@gmail.com",
+      role: "ADMIN",
+      emailVerified: new Date("2025-07-17"),
+    },
+  ];
 
-  const paginatedUsers = mockUsers.slice(
-    (currentPage - 1) * USERS_PER_PAGE,
-    currentPage * USERS_PER_PAGE
-  );
+  const currentPage = Number(searchParams.get("page")) || 1;
+
+  const totalUsersCount = users.length;
+
+  const totalPages = Math.ceil(totalUsersCount / USERS_PER_PAGE);
 
   return (
     <div className="p-6 space-y-6">
@@ -57,11 +61,11 @@ export default function UsersPage() {
 
       {isAddUserFormVisible && (
         <div className="text-sm text-gray-600 border p-4 rounded bg-gray-50">
-          Заглушка формы добавления пользователя.
+          <UserAddForm />
         </div>
       )}
 
-      <UserTable users={paginatedUsers} />
+      <UserTable users={users} />
 
       <div className="flex justify-center pt-4">
         <Pagination totalPages={totalPages} />
