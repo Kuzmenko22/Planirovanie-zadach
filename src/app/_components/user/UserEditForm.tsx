@@ -42,7 +42,6 @@ export function UserEditForm({ initialData }: UserEditFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Тут будет вызов API для обновления пользователя
     console.log("Обновить пользователя:", formState);
     alert("Пользователь обновлен (эмуляция)");
   };

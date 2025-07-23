@@ -32,7 +32,6 @@ export function UserAddForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Тут будет вызов API для создания пользователя
     console.log("Создать пользователя:", formState);
     alert("Пользователь создан (эмуляция)");
   };
