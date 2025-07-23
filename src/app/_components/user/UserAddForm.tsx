@@ -33,7 +33,7 @@ export function UserAddForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Создать пользователя:", formState);
-    alert("Пользователь создан (эмуляция)");
+    alert("Пользователь создан");
   };
 
   return (
