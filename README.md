@@ -1,23 +1,27 @@
 # Проект на T3 Stack (Next.js, Prisma, NextAuth, TypeScript)
 
 ## Описание проекта
-Данный проект является клиент-серверным веб-приложением 
+Данный проект является клиент-серверным веб-приложением, которое позволяет удобно просматривать задачи в календаре продаж, создавать новые и редактировать имеющиеся, следить за общими суммами договоров, заключением или продлением договоров и их оплатой на определенный срок.
 
 ## Установка
 1) Клонировать репозиторий
 
-   ``git clone https://github.com/Kuzmenko22/Planirovanie.git``
+   ``git clone https://github.com/Kuzmenko22/Planirovanie-zadach.git``
    
-   ``cd Planirovanie``
+   ``cd Planirovanie-zadach``
+
 3) Установить зависимости
    
    ``pnpm install``
+
 5) Инициализация БД
    
    ``pnpm prisma migrate dev --name init``
+
 7) Запуск контейнеров
    
    ``pnpm db:start``
+   
 9) Запуск разработки
     
    ``pnpm dev``
